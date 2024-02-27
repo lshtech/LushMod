@@ -1,0 +1,2 @@
+# LushMod
+Mod for Balatro
