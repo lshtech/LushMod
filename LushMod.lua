@@ -139,7 +139,7 @@ function SMODS.INIT.LushMod()
             eternal_compat = true,
             rarity = 2,
             cost = 6,
-            name = "Hue Joker",
+            name = "Hue Graph",
             set = "Joker",
             config = {
                 extra = 3
@@ -157,7 +157,7 @@ function SMODS.INIT.LushMod()
             eternal_compat = true,
             rarity = 1,
             cost = 5,
-            name = "Wizard Joker",
+            name = "Cloud Wizard",
             set = "Joker",
             config = {
                 extra = 1
@@ -175,7 +175,7 @@ function SMODS.INIT.LushMod()
             eternal_compat = true,
             rarity = 2,
             cost = 6,
-            name = "Timely Joker",
+            name = "Timely Lion",
             set = "Joker",
             config = {
                 extra = {
@@ -234,15 +234,15 @@ function SMODS.INIT.LushMod()
           text = { "Each {C:attention}Ace{}", "held in hand", "gives {C:chips}+#1#{} Chips" }
         },
         j_hue = {
-          name = "Hue Joker",
+          name = "Hue Graph",
           text = { "If {C:attention}first discard{} of round is", "a flush, {C:green}#1# in #2#{} chance", " to destroy each discarded card."}
         },
         j_wizard = {
-          name = "Wizard Joker",
+          name = "Cloud Wizard",
           text = { "Earn {C:money}$1{} for each", "{C:purple}Tarot{} card used." }
         },
         j_timely = {
-          name = "Timely Joker",
+          name = "Timely Lion",
           text = { "{C:mult}+#1#{} Mult on {C:attention}first{}", "and {C:attention}final{} hand", "of round." }
         },
     }
@@ -340,7 +340,7 @@ function Card.calculate_joker(self, context)
         elseif context.skipping_booster then
         elseif context.playing_card_added and not self.getting_sliced then
         elseif context.first_hand_drawn then
-          if self.ability.name == 'Hue Joker' and not context.blueprint then
+          if self.ability.name == 'Hue Graph' and not context.blueprint then
               local eval = function() return G.GAME.current_round.discards_used == 0 and not G.RESET_JIGGLES end
               juice_card_until(self, eval, true)
           end
@@ -382,7 +382,7 @@ function Card.calculate_joker(self, context)
         elseif context.cards_destroyed then
         elseif context.remove_playing_cards then
         elseif context.using_consumeable then
-          if self.ability.name == 'Wizard Joker' and (context.consumeable.ability.set == "Tarot") then
+          if self.ability.name == 'Cloud Wizard' and (context.consumeable.ability.set == "Tarot") then
               ease_dollars(self.ability.extra)
               G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra
               G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
@@ -395,7 +395,7 @@ function Card.calculate_joker(self, context)
         elseif context.debuffed_hand then 
         elseif context.pre_discard then
         elseif context.discard then
-          if self.ability.name == 'Hue Joker' and not context.blueprint and not context.hook and 
+          if self.ability.name == 'Hue Graph' and not context.blueprint and not context.hook and 
           G.GAME.current_round.discards_used <= 0 then
               local text,disp_text = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
 
@@ -553,7 +553,7 @@ function Card.calculate_joker(self, context)
                                 }
                             end
                         end
-                        if self.ability.name == "Timely Joker" then
+                        if self.ability.name == "Timely Lion" then
                           if G.GAME.current_round.hands_left == 0 and G.GAME.current_round.hands_played == 0 then
                             local temp_mult = 2 * self.ability.extra.mult
                             return {
@@ -622,13 +622,13 @@ function Card.generate_UIBox_ability_table(self)
         elseif self.ability.name == "Amazin' Joker" then
             loc_vars = {self.ability.extra.chips}
             customJoker = true
-        elseif self.ability.name == 'Hue Joker' then
+        elseif self.ability.name == 'Hue Graph' then
             loc_vars = {G.GAME.probabilities.normal, self.ability.extra}
             customJoker = true
-        elseif self.ability.name == 'Wizard Joker' then
+        elseif self.ability.name == 'Cloud Wizard' then
             loc_vars = {self.ability.extra}
             customJoker = true
-        elseif self.ability.name == 'Timely Joker' then
+        elseif self.ability.name == 'Timely Lion' then
             loc_vars = {self.ability.extra.mult}
             customJoker = true
         end
