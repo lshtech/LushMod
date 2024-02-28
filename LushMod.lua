@@ -227,7 +227,7 @@ function SMODS.INIT.LushMod()
         },
         j_buffer = {
             name = "The Buffer",
-            text = {"{C:mult}+#1#{} Mult if played", "hand contains", "a {C:attention}5{}"}
+            text = {"{C:mult}+#1#{} Mult if", "played hand", "contains a {C:attention}5{}"}
         },
         j_amazin = {
           name = "Amazin' Joker",
