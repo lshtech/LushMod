@@ -34,6 +34,42 @@ function SMODS.INIT.LushMod()
                 y = 16
             }
         },
+        j_brethren = {
+          order = 0,
+          unlocked = true,
+          discovered = true,
+          blueprint_compat = true,
+          eternal_compat = true,
+          rarity = 3,
+          cost = 8,
+          name = "The Brethren",
+          set = "Joker",
+          config = {
+            extra = 2
+          },
+          pos = {
+            x = 1,
+            y = 16,
+          },
+        },
+        j_trickster = {
+          order = 0,
+          unlocked = true,
+          discovered = true,
+          blueprint_compat = false,
+          eternal_compat = true,
+          rarity = 3,
+          cost = 8,
+          name = "The Trickster",
+          set = "Joker",
+          config = {
+            extra = {},
+          },
+          pos = {
+            x = 2,
+            y = 16,
+          },
+        },
         j_top5 = {
             order = 0,
             unlocked = true,
@@ -51,7 +87,7 @@ function SMODS.INIT.LushMod()
                 }
             },
             pos = {
-                x = 1,
+                x = 3,
                 y = 16
             }
         },
@@ -62,7 +98,7 @@ function SMODS.INIT.LushMod()
             blueprint_compat = true,
             eternal_compat = true,
             rarity = 1,
-            cost = 5,
+            cost = 4,
             name = "The Buffer",
             set = "Joker",
             config = {
@@ -71,10 +107,86 @@ function SMODS.INIT.LushMod()
                 }
             },
             pos = {
-                x = 2,
+                x = 4,
                 y = 16
             }
-        }
+        },
+        j_amazin = {
+            order = 0,
+            unlocked = true,
+            discovered = true,
+            blueprint_compat = true,
+            eternal_compat = true,
+            rarity = 1,
+            cost = 4,
+            name = "Amazin' Joker",
+            set = "Joker",
+            config = {
+                extra = {
+                    chips = 25
+                }
+            },
+            pos = {
+                x = 5,
+                y = 16
+            }
+        },
+        j_hue = {
+            order = 0,
+            unlocked = true,
+            discovered = true,
+            blueprint_compat = true,
+            eternal_compat = true,
+            rarity = 2,
+            cost = 6,
+            name = "Hue Joker",
+            set = "Joker",
+            config = {
+                extra = 3
+            },
+            pos = {
+                x = 6,
+                y = 16
+            }
+        },
+        j_wizard = {
+            order = 0,
+            unlocked = true,
+            discovered = true,
+            blueprint_compat = true,
+            eternal_compat = true,
+            rarity = 1,
+            cost = 5,
+            name = "Wizard Joker",
+            set = "Joker",
+            config = {
+                extra = 1
+            },
+            pos = {
+                x = 7,
+                y = 16
+            }
+        },
+        j_timely = {
+            order = 0,
+            unlocked = true,
+            discovered = true,
+            blueprint_compat = true,
+            eternal_compat = true,
+            rarity = 2,
+            cost = 6,
+            name = "Timely Joker",
+            set = "Joker",
+            config = {
+                extra = {
+                    mult = 12
+                }
+            },
+            pos = {
+                x = 8,
+                y = 16
+            }
+        },
     }
 
     -- Add Jokers to center
@@ -99,6 +211,14 @@ function SMODS.INIT.LushMod()
             text = {"{X:mult,C:white} X#1# {} Mult per", "Joker added.",
                     "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"}
         },
+        j_brethren = {
+          name = "The Brethren",
+          text = { "{C:green}#1# in #2#{} chance to", "convert the pair in a", "{C:attention}Full House{} to the rank", "of the other 3 cards" }
+        },
+        j_trickster = {
+          name = "The Trickster",
+          text = { "When {C:attention}Blind{} is selected,", "reroll the Joker to the", "right into a new Joker", "of the same rarity" }
+        },
         j_top5 = {
             name = "Top 5",
             text = {"Doubles Chips if first", "played hand is a {C:attention}Straight{}",
@@ -108,7 +228,23 @@ function SMODS.INIT.LushMod()
         j_buffer = {
             name = "The Buffer",
             text = {"{C:mult}+#1#{} Mult if played", "hand contains", "a {C:attention}5{}"}
-        }
+        },
+        j_amazin = {
+          name = "Amazin' Joker",
+          text = { "Each {C:attention}Ace{}", "held in hand", "gives {C:chips}+#1#{} Chips" }
+        },
+        j_hue = {
+          name = "Hue Joker",
+          text = { "If {C:attention}first discard{} of round is", "a flush, {C:green}#1# in #2#{} chance", " to destroy each discarded card."}
+        },
+        j_wizard = {
+          name = "Wizard Joker",
+          text = { "Earn {C:money}$1{} for each", "{C:purple}Tarot{} card used." }
+        },
+        j_timely = {
+          name = "Timely Joker",
+          text = { "{C:mult}+#1#{} Mult on {C:attention}first{}", "and {C:attention}final{} hand", "of round." }
+        },
     }
     for k, v in pairs(jokerLocalization) do
         G.localization.descriptions.Joker[k] = v
@@ -204,14 +340,77 @@ function Card.calculate_joker(self, context)
         elseif context.skipping_booster then
         elseif context.playing_card_added and not self.getting_sliced then
         elseif context.first_hand_drawn then
-        elseif context.setting_blind and not self.getting_sliced then
+          if self.ability.name == 'Hue Joker' and not context.blueprint then
+              local eval = function() return G.GAME.current_round.discards_used == 0 and not G.RESET_JIGGLES end
+              juice_card_until(self, eval, true)
+          end
+        elseif context.setting_blind and not self.getting_sliced and not self.gettin_rerolled then
+          if self.ability.name == "The Trickster" and not context.blueprint then
+            local my_pos = nil
+            for i = 1, #G.jokers.cards do
+              if G.jokers.cards[i] == self then my_pos = i; break end
+            end
+
+            if my_pos and G.jokers.cards[my_pos + 1] and not self.getting_sliced and not G.jokers.cards[my_pos + 1].ability.eternal and not G.jokers.cards[my_pos + 1].getting_rerolled then
+              local rerolled_card = G.jokers.cards[my_pos + 1]
+              rerolled_card.getting_rerolled = true
+
+              local rerolled_card_rarity = 0
+              if rerolled_card.config.center.rarity == 2 then
+                rerolled_card_rarity = 0.9
+              elseif rerolled_card.config.center.rarity == 3 then
+                rerolled_card_rarity = 1
+              end
+
+              G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+
+              G.E_MANAGER:add_event(Event({func = function()
+                G.GAME.joker_buffer = 0
+                self:juice_up(0.8, 0.8)
+                rerolled_card:start_dissolve({HEX("57ecab")}, nil, 1.6)
+                local card = create_card('Joker', G.jokers, nil, rerolled_card_rarity, nil, nil, nil, 'trc')
+                card:add_to_deck()
+                G.jokers:emplace(card)
+                card:start_materialize()
+                G.GAME.joker_buffer = 0
+                return true
+              end}))
+              card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = "Rerolled!", colour = G.C.PURPLE})    
+            end
+          end
         elseif context.destroying_card then
         elseif context.cards_destroyed then
         elseif context.remove_playing_cards then
         elseif context.using_consumeable then
+          if self.ability.name == 'Wizard Joker' and (context.consumeable.ability.set == "Tarot") then
+              ease_dollars(self.ability.extra)
+              G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra
+              G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+              return {
+                  message = localize('$')..self.ability.extra,
+                  dollars = self.ability.extra,
+                  colour = G.C.MONEY
+              }
+          end
         elseif context.debuffed_hand then 
         elseif context.pre_discard then
         elseif context.discard then
+          if self.ability.name == 'Hue Joker' and not context.blueprint and not context.hook and 
+          G.GAME.current_round.discards_used <= 0 then
+              local text,disp_text = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
+
+              if text == "Flush" then
+                if pseudorandom('hue'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/self.ability.extra then
+                  return {
+                      message = "Hewn!",
+                      colour = G.C.RED,
+                      delay = 0.45, 
+                      remove = true,
+                      card = self
+                  }
+                end
+              end
+          end
         elseif context.end_of_round then
         elseif context.repetition then
         elseif context.other_joker then
@@ -222,6 +421,24 @@ function Card.calculate_joker(self, context)
                 end
             end
         elseif context.individual then
+          if context.cardarea == G.play then
+          end
+          if context.cardarea == G.hand then
+            if self.ability.name == "Amazin' Joker" and context.other_card:get_id() == 14 then
+              if context.other_card.debuff then
+                  return {
+                      message = localize('k_debuffed'),
+                      colour = G.C.RED,
+                      card = self,
+                  }
+              else
+                  return {
+                      chips = self.ability.extra.chips,
+                      card = self
+                  }
+              end
+            end
+          end
         else
             if context.cardarea == G.jokers then
                 if context.before then
@@ -247,7 +464,68 @@ function Card.calculate_joker(self, context)
                         end
                     end
                 elseif context.after then
+                  if context.cardarea == G.jokers then
+                    if self.ability.name == "The Brethren" then
+                      if next(context.poker_hands["Full House"]) then
+                        if pseudorandom('breth'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/self.ability.extra then
+                          local rank1 = nil
+                          local rank1_count = nil
+                          local rank2 = nil
+                          local rank2_count = nil
+  
+                          for i = 1, #context.scoring_hand do
+                            if rank1 == context.scoring_hand[i]:get_id() then
+                              rank1_count = rank1_count + 1
+                            elseif rank2 == context.scoring_hand[i]:get_id() then
+                              rank2_count = rank2_count + 1
+                            elseif rank1 == nil then
+                              rank1 = context.scoring_hand[i]:get_id()
+                              rank1_count = 1
+                            elseif rank2 == nil then
+                              rank2 = context.scoring_hand[i]:get_id()
+                              rank2_count = 1
+                            end
+                          end
+                          
+                          local pair_rank = nil
+                          local three_rank = nil
+                          if rank1_count == 2 then
+                            pair_rank = rank1
+                            three_rank = rank2
+                          elseif rank2_count == 2 then
+                            pair_rank = rank2
+                            three_rank = rank1
+                          end
 
+                          local cdelay = 0.5
+                          for i = 1, #context.scoring_hand do
+                            if context.scoring_hand[i]:get_id() == pair_rank then
+                              G.E_MANAGER:add_event(Event({trigger = 'after', delay = cdelay, func = function()
+                                local card = context.scoring_hand[i]
+                                local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+                                local rank_suffix = three_rank
+                                if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
+                                elseif rank_suffix == 10 then rank_suffix = 'T'
+                                elseif rank_suffix == 11 then rank_suffix = 'J'
+                                elseif rank_suffix == 12 then rank_suffix = 'Q'
+                                elseif rank_suffix == 13 then rank_suffix = 'K'
+                                elseif rank_suffix == 14 then rank_suffix = 'A'
+                                end
+                                card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+                              return true end}))
+                              cdelay = 0.1
+                            end
+                          end
+
+                          return {
+                              message = "Converted!",
+                              colour = G.C.RED,
+                              card = self
+                          }
+                        end
+                      end
+                    end
+                  end
                 else
                     if context.cardarea == G.jokers then
                         if self.ability.name == 'Top 5' then
@@ -260,7 +538,8 @@ function Card.calculate_joker(self, context)
                                 chip_mod = self.ability.extra.chips,
                                 colour = G.C.CHIPS
                             }
-                        elseif self.ability.name == 'The Buffer' then
+                        end
+                        if self.ability.name == 'The Buffer' then
                             local fives = 0
                             for i = 1, #context.full_hand do
                                 if context.full_hand[i]:get_id() == 5 then
@@ -273,6 +552,20 @@ function Card.calculate_joker(self, context)
                                     mult_mod = self.ability.extra.mult
                                 }
                             end
+                        end
+                        if self.ability.name == "Timely Joker" then
+                          if G.GAME.current_round.hands_left == 0 and G.GAME.current_round.hands_played == 0 then
+                            local temp_mult = 2 * self.ability.extra.mult
+                            return {
+                              message = localize{type='variable',key='a_mult',vars={temp_mult}},
+                              mult_mod = temp_mult,
+                            }
+                          elseif G.GAME.current_round.hands_left == 0 or G.GAME.current_round.hands_played == 0 then
+                            return {
+                              message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
+                              mult_mod = self.ability.extra.mult,
+                            }
+                          end
                         end
                     end
                 end
@@ -314,10 +607,28 @@ function Card.generate_UIBox_ability_table(self)
         if self.ability.name == 'The Jokester' then
             loc_vars = {self.ability.extra, self.ability.x_mult}
             customJoker = true
+        elseif self.ability.name == 'The Brethren' then
+            loc_vars = {G.GAME.probabilities.normal, self.ability.extra}
+            customJoker = true
+        elseif self.ability.name == 'The Trickster' then
+            loc_vars = {}
+            customJoker = true
         elseif self.ability.name == 'Top 5' then
             loc_vars = {self.ability.extra.chips}
             customJoker = true
         elseif self.ability.name == 'The Buffer' then
+            loc_vars = {self.ability.extra.mult}
+            customJoker = true
+        elseif self.ability.name == "Amazin' Joker" then
+            loc_vars = {self.ability.extra.chips}
+            customJoker = true
+        elseif self.ability.name == 'Hue Joker' then
+            loc_vars = {G.GAME.probabilities.normal, self.ability.extra}
+            customJoker = true
+        elseif self.ability.name == 'Wizard Joker' then
+            loc_vars = {self.ability.extra}
+            customJoker = true
+        elseif self.ability.name == 'Timely Joker' then
             loc_vars = {self.ability.extra.mult}
             customJoker = true
         end
