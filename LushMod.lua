@@ -15,194 +15,16 @@ end
 
 function SMODS.INIT.LushMod()
     local lushJokers = {
-        j_jokester = {
-            order = 1,
-            unlocked = true,
-            discovered = true,
-            blueprint_compat = true,
-            eternal_compat = true,
-            rarity = 3,
-            cost = 8,
-            name = "The Jokester",
-            set = "Joker",
-            config = {
-                extra = 0.2,
-                Xmult = 1
-            },
-            pos = {
-                x = 0,
-                y = 16
-            }
-        },
-        j_brethren = {
-          order = 2,
-          unlocked = true,
-          discovered = true,
-          blueprint_compat = true,
-          eternal_compat = true,
-          rarity = 3,
-          cost = 8,
-          name = "The Brethren",
-          set = "Joker",
-          config = {
-            extra = 2
-          },
-          pos = {
-            x = 1,
-            y = 16,
-          },
-        },
-        j_trickster = {
-          order = 3,
-          unlocked = true,
-          discovered = true,
-          blueprint_compat = false,
-          eternal_compat = true,
-          rarity = 3,
-          cost = 8,
-          name = "The Trickster",
-          set = "Joker",
-          config = {
-            extra = {},
-          },
-          pos = {
-            x = 2,
-            y = 16,
-          },
-        },
-        j_top5 = {
-            order = 4,
-            unlocked = true,
-            discovered = true,
-            blueprint_compat = true,
-            eternal_compat = true,
-            rarity = 2,
-            cost = 6,
-            name = "Top 5",
-            set = "Joker",
-            config = {
-                extra = {
-                    chips = 4,
-                    chip_mod = 2
-                }
-            },
-            pos = {
-                x = 3,
-                y = 16
-            }
-        },
-        j_buffer = {
-            order = 5,
-            unlocked = true,
-            discovered = true,
-            blueprint_compat = true,
-            eternal_compat = true,
-            rarity = 1,
-            cost = 4,
-            name = "The Buffer",
-            set = "Joker",
-            config = {
-                extra = {
-                    mult = 15
-                }
-            },
-            pos = {
-                x = 4,
-                y = 16
-            }
-        },
-        j_amazin = {
-            order = 6,
-            unlocked = true,
-            discovered = true,
-            blueprint_compat = true,
-            eternal_compat = true,
-            rarity = 1,
-            cost = 4,
-            name = "Amazin' Joker",
-            set = "Joker",
-            config = {
-                extra = {
-                    chips = 25
-                }
-            },
-            pos = {
-                x = 5,
-                y = 16
-            }
-        },
-        j_hue = {
-            order = 7,
-            unlocked = true,
-            discovered = true,
-            blueprint_compat = true,
-            eternal_compat = true,
-            rarity = 2,
-            cost = 6,
-            name = "Hue Graph",
-            set = "Joker",
-            config = {
-                extra = 3
-            },
-            pos = {
-                x = 6,
-                y = 16
-            }
-        },
-        j_wizard = {
-            order = 8,
-            unlocked = true,
-            discovered = true,
-            blueprint_compat = true,
-            eternal_compat = true,
-            rarity = 1,
-            cost = 5,
-            name = "Cloud Wizard",
-            set = "Joker",
-            config = {
-                extra = 1
-            },
-            pos = {
-                x = 7,
-                y = 16
-            }
-        },
-        j_timely = {
-            order = 9,
-            unlocked = true,
-            discovered = true,
-            blueprint_compat = true,
-            eternal_compat = true,
-            rarity = 2,
-            cost = 6,
-            name = "Timely Lion",
-            set = "Joker",
-            config = {
-                extra = {
-                    mult = 12
-                }
-            },
-            pos = {
-                x = 8,
-                y = 16
-            }
-        },
+        j_jokester  = { order = 1, unlocked = true, discovered = true, blueprint_compat = true,  eternal_compat = true, rarity = 3, cost = 8, name = "The Jokester",  set = "Joker", config = { extra = 0.2, Xmult = 1 }, pos = { x = 0, y = 16 } },
+        j_brethren  = { order = 2, unlocked = true, discovered = true, blueprint_compat = true,  eternal_compat = true, rarity = 3, cost = 8, name = "The Brethren",  set = "Joker", config = { extra = 2 }, pos = { x = 1, y = 16, } },
+        j_trickster = { order = 3, unlocked = true, discovered = true, blueprint_compat = false, eternal_compat = true, rarity = 3, cost = 8, name = "The Trickster", set = "Joker", config = { extra = {}, }, pos = { x = 2, y = 16, }, },
+        j_top5      = { order = 4, unlocked = true, discovered = true, blueprint_compat = true,  eternal_compat = true, rarity = 2, cost = 6, name = "Top 5",         set = "Joker", config = { extra = { chips = 4, chip_mod = 2 } }, pos = { x = 3, y = 16 } },
+        j_buffer    = { order = 5, unlocked = true, discovered = true, blueprint_compat = true,  eternal_compat = true, rarity = 1, cost = 4, name = "The Buffer",    set = "Joker", config = { extra = { mult = 15 } }, pos = { x = 4, y = 16 } },
+        j_amazin    = { order = 6, unlocked = true, discovered = true, blueprint_compat = true,  eternal_compat = true, rarity = 1, cost = 4, name = "Amazin' Joker", set = "Joker", config = { extra = { chips = 25 } }, pos = { x = 5, y = 16 } },
+        j_hue       = { order = 7, unlocked = true, discovered = true, blueprint_compat = true,  eternal_compat = true, rarity = 2, cost = 6, name = "Hue Graph",     set = "Joker", config = { extra = 3 }, pos = { x = 6, y = 16 } },
+        j_wizard    = { order = 8, unlocked = true, discovered = true, blueprint_compat = true,  eternal_compat = true, rarity = 1, cost = 5, name = "Cloud Wizard",  set = "Joker", config = { extra = 1 }, pos = { x = 7, y = 16 } },
+        j_timely    = { order = 9, unlocked = true, discovered = true, blueprint_compat = true,  eternal_compat = true, rarity = 2, cost = 6, name = "Timely Lion",   set = "Joker", config = { extra = { mult = 12 } }, pos = { x = 8, y = 16 } },
     }
-
-    -- Add Jokers to center
-    for k, v in pairsByOrder(lushJokers) do
-        v.key = k
-        v.order = table_length(G.P_CENTER_POOLS['Joker']) + v.order
-        G.P_CENTERS[k] = v
-        table.insert(G.P_CENTER_POOLS['Joker'], v)
-        if v.rarity and v.set == 'Joker' and not v.demo then
-            table.insert(G.P_JOKER_RARITY_POOLS[v.rarity], v)
-        end
-    end
-
-    table.sort(G.P_CENTER_POOLS["Joker"], function(a, b)
-        return a.order < b.order
-    end)
 
     -- Localization
     local jokerLocalization = {
@@ -246,33 +68,9 @@ function SMODS.INIT.LushMod()
           text = { "{C:mult}+#1#{} Mult on {C:attention}first{}", "and {C:attention}final{} hand", "of round." }
         },
     }
-    for k, v in pairs(jokerLocalization) do
-        G.localization.descriptions.Joker[k] = v
-    end
 
-    -- Update localization
-    for g_k, group in pairs(G.localization) do
-        if g_k == 'descriptions' then
-            for _, set in pairs(group) do
-                for _, center in pairs(set) do
-                    center.text_parsed = {}
-                    for _, line in ipairs(center.text) do
-                        center.text_parsed[#center.text_parsed + 1] = loc_parse_string(line)
-                    end
-                    center.name_parsed = {}
-                    for _, line in ipairs(type(center.name) == 'table' and center.name or {center.name}) do
-                        center.name_parsed[#center.name_parsed + 1] = loc_parse_string(line)
-                    end
-                    if center.unlock then
-                        center.unlock_parsed = {}
-                        for _, line in ipairs(center.unlock) do
-                            center.unlock_parsed[#center.unlock_parsed + 1] = loc_parse_string(line)
-                        end
-                    end
-                end
-            end
-        end
-    end
+    addJokersToPools(lushJokers)
+    updateLocalization(jokerLocalization)
 
     -- Add sprites
     local lushmod = SMODS.findModByID("LushMod")
