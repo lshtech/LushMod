@@ -16,7 +16,7 @@ end
 function SMODS.INIT.LushMod()
     local lushJokers = {
         j_jokester = {
-            order = 0,
+            order = 1,
             unlocked = true,
             discovered = true,
             blueprint_compat = true,
@@ -35,7 +35,7 @@ function SMODS.INIT.LushMod()
             }
         },
         j_brethren = {
-          order = 0,
+          order = 2,
           unlocked = true,
           discovered = true,
           blueprint_compat = true,
@@ -53,7 +53,7 @@ function SMODS.INIT.LushMod()
           },
         },
         j_trickster = {
-          order = 0,
+          order = 3,
           unlocked = true,
           discovered = true,
           blueprint_compat = false,
@@ -71,7 +71,7 @@ function SMODS.INIT.LushMod()
           },
         },
         j_top5 = {
-            order = 0,
+            order = 4,
             unlocked = true,
             discovered = true,
             blueprint_compat = true,
@@ -92,7 +92,7 @@ function SMODS.INIT.LushMod()
             }
         },
         j_buffer = {
-            order = 0,
+            order = 5,
             unlocked = true,
             discovered = true,
             blueprint_compat = true,
@@ -112,7 +112,7 @@ function SMODS.INIT.LushMod()
             }
         },
         j_amazin = {
-            order = 0,
+            order = 6,
             unlocked = true,
             discovered = true,
             blueprint_compat = true,
@@ -132,7 +132,7 @@ function SMODS.INIT.LushMod()
             }
         },
         j_hue = {
-            order = 0,
+            order = 7,
             unlocked = true,
             discovered = true,
             blueprint_compat = true,
@@ -150,7 +150,7 @@ function SMODS.INIT.LushMod()
             }
         },
         j_wizard = {
-            order = 0,
+            order = 8,
             unlocked = true,
             discovered = true,
             blueprint_compat = true,
@@ -168,7 +168,7 @@ function SMODS.INIT.LushMod()
             }
         },
         j_timely = {
-            order = 0,
+            order = 9,
             unlocked = true,
             discovered = true,
             blueprint_compat = true,
@@ -190,9 +190,9 @@ function SMODS.INIT.LushMod()
     }
 
     -- Add Jokers to center
-    for k, v in pairs(lushJokers) do
+    for k, v in pairsByOrder(lushJokers) do
         v.key = k
-        v.order = table_length(G.P_CENTER_POOLS['Joker']) + 1
+        v.order = table_length(G.P_CENTER_POOLS['Joker']) + v.order
         G.P_CENTERS[k] = v
         table.insert(G.P_CENTER_POOLS['Joker'], v)
         if v.rarity and v.set == 'Joker' and not v.demo then
@@ -223,7 +223,7 @@ function SMODS.INIT.LushMod()
             name = "Top 5",
             text = {"Doubles Chips if first", "played hand is a {C:attention}Straight{}",
                     "containing an {C:attention}Ace{} and a {C:attention}5{} ",
-                    "{C:inactive}(Currently {C:chips}#1#{} Chips)"}
+                    "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)"}
         },
         j_buffer = {
             name = "The Buffer",
