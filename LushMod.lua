@@ -456,38 +456,30 @@ function Card.generate_UIBox_ability_table(self)
     elseif self.debuff then
     elseif card_type == 'Default' or card_type == 'Enhanced' then
     elseif self.ability.set == 'Joker' then
-        local customJoker = false
+        local customJoker = true
 
         if self.ability.name == 'The Jokester' then
             loc_vars = {self.ability.extra, self.ability.x_mult}
-            customJoker = true
         elseif self.ability.name == 'The Brethren' then
             loc_vars = {G.GAME.probabilities.normal, self.ability.extra}
-            customJoker = true
         elseif self.ability.name == 'The Trickster' then
             loc_vars = {}
-            customJoker = true
         elseif self.ability.name == 'Top 5' then
             loc_vars = {self.ability.extra.chips}
-            customJoker = true
         elseif self.ability.name == 'The Buffer' then
             loc_vars = {self.ability.extra.mult}
-            customJoker = true
         elseif self.ability.name == "Amazin' Joker" then
             loc_vars = {self.ability.extra.chips}
-            customJoker = true
         elseif self.ability.name == 'Hue Graph' then
             loc_vars = {G.GAME.probabilities.normal, self.ability.extra}
-            customJoker = true
         elseif self.ability.name == 'Cloud Wizard' then
             loc_vars = {self.ability.extra}
-            customJoker = true
         elseif self.ability.name == 'Timely Lion' then
             loc_vars = {self.ability.extra.mult}
-            customJoker = true
         elseif self.ability.name == 'Seven Seven Seven' then
             loc_vars = {self.ability.extra}
-            customJoker = true
+        else
+            customJoker = false
         end
 
         if customJoker then
