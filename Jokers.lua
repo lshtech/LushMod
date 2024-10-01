@@ -19,7 +19,7 @@ SMODS.Atlas{
 local j_jokester = SMODS.Joker{
 	name = "j_jokester",
 	key = "jokester",
-	config = { extra = 0.2, Xmult = 1 },
+	config = { extra = { mult_mod = 0.2, jokers = 0 }, Xmult = 1 },
 	pos = { x = 0, y = 0 },
 	loc_txt = {
 		name = "The Jokester",
@@ -34,13 +34,22 @@ local j_jokester = SMODS.Joker{
 	perishable_compat = trigger_colour_end_of_round,
 	atlas = "LushJokers",
 	loc_vars = function(self, info_queue, center)
-		return { vars = { center.ability.extra, center.ability.x_mult } }
+		return { vars = { center.ability.extra.mult_mod, center.ability.x_mult } }
 	end,
 	calculate = function(self, card, context)
-		if context.joker_added and not context.blueprint then
-            card.ability.x_mult = card.ability.x_mult + card.ability.extra
+        local num_jokers = #G.jokers.cards
+        local diff = 0
+        if num_jokers > card.ability.extra.jokers then
+            diff = num_jokers - card.ability.extra.jokers
         end
+        if diff ~= 0 then
+            card.ability.x_mult = card.ability.x_mult + (card.ability.extra.mult_mod * diff)
+        end
+        card.ability.extra.jokers = num_jokers
 	end,
+    add_to_deck = function(self, card, from_debuff)
+        card.ability.extra.jokers = #G.jokers.cards + 1
+    end
 }
 local j_brethren = SMODS.Joker{
 	name = "j_brethren",
