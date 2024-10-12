@@ -109,7 +109,7 @@ local j_brethren = SMODS.Joker{
                     if context.scoring_hand[i]:get_id() == pair_rank then
                       G.E_MANAGER:add_event(Event({trigger = 'after', delay = cdelay, func = function()
                         local card = context.scoring_hand[i]
-                        local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+                        local suit_prefix = SMODS.Suits[card.base.suit].card_key..'_'
                         local rank_suffix = three_rank
                         if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
                         elseif rank_suffix == 10 then rank_suffix = 'T'
