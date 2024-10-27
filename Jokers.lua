@@ -164,11 +164,15 @@ local j_trickster = SMODS.Joker{
               local rerolled_card = G.jokers.cards[my_pos + 1]
               rerolled_card.getting_rerolled = true
 
+              local legendary = false
               local rerolled_card_rarity = 0
               if rerolled_card.config.center.rarity == 2 then
                 rerolled_card_rarity = 0.9
               elseif rerolled_card.config.center.rarity == 3 then
+                rerolled_card_rarity = 0.99
+              elseif rerolled_card.config.center.rarity == 4 then
                 rerolled_card_rarity = 1
+                legendary = true
               end
 
               G.GAME.joker_buffer = G.GAME.joker_buffer - 1
@@ -178,7 +182,7 @@ local j_trickster = SMODS.Joker{
                 G.GAME.joker_buffer = 0
                 card:juice_up(0.8, 0.8)
                 rerolled_card:start_dissolve({HEX("57ecab")}, nil, 1.6)
-                local new_card = create_card('Joker', G.jokers, nil, rerolled_card_rarity, nil, nil, nil, 'trc')
+                local new_card = create_card('Joker', G.jokers, legendary, rerolled_card_rarity, nil, nil, nil, 'trc')
                 new_card:add_to_deck()
                 G.jokers:emplace(new_card)
                 new_card:start_materialize()
